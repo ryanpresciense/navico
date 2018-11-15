@@ -5,7 +5,7 @@ open SnakesAndLadders
 
 [<Tests>]
 let ``Token can move across the board`` =
-    test "Initial state" {
+    test "Starting a game" {
         //Given the game is started
         let game = Game.start()
         //When the token is placed on the board
