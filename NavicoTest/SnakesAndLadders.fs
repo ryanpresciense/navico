@@ -1,8 +1,10 @@
 ﻿module SnakesAndLadders
 
 module Token =
-    type Token = Token of uint8
-
+    type Token = Token of uint8 with
+        member this.Move places = 
+            match this with Token x -> Token (x + places)
+            
     let create () = Token (uint8 1)
 
 module Game =
