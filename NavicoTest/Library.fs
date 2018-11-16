@@ -30,6 +30,22 @@ let accept =
                          "Token is not on square 4"
         
         }
+        test "Moving a token again" {
+            //Given the token is on square 1
+            let token = Token.create ()
+            let game = Game.start()
+                           .Place(Token.create ())
+                           .Place(
+                                //When the token is moved 3 spaces
+                                token.Move(uint8 3)
+                                //And then it is moved 4 spaces
+                                     .Move(uint8 4)
+                           )
+            //Then the token is on square 8
+            Expect.equal (game.Token()) 
+                         (Some (Token.Token (uint8 8))) 
+                         "Token is not on square 8"
+         }
     ]
 [<EntryPoint>]
 let runner argv = 
