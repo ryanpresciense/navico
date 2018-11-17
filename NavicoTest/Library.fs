@@ -8,42 +8,35 @@ let ``Feature 1.1`` =
     testList "Token can move across the board" [
         test "Starting a game" {
             //Given the game is started
-            let game = Game.start()
             //When the token is placed on the board
-                           .Place(Player.create ())
+            let player = Player.create()
             //Then the token is on square 1
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
-                         (Some (uint8 1)) 
+            Expect.equal player.Square
+                         (uint8 1)
                          "Token is not on square 1"
         
         }
         test "Moving a token" {
             //Given the token is on square 1
-            let player = Player.create ()
-            let game = Game.start()
-                           .Place(player)
+            let player = (Player.create())
             //When the token is moved 3 spaces
-                           .Place(player.Move(uint8 3))
+                          .Move(uint8 3)
             //Then the token is on square 4
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
-                         (Some (uint8 4)) 
+            Expect.equal player.Square
+                         (uint8 4)
                          "Token is not on square 4"
         
         }
         test "Moving a token again" {
             //Given the token is on square 1
-            let player = Player.create ()
-            let game = Game.start()
-                           .Place(player)
-                           .Place(
-                                //When the token is moved 3 spaces
-                                player.Move(uint8 3)
-                                //And then it is moved 4 spaces
-                                     .Move(uint8 4)
-                           )
+            let player = (Player.create ())
+            //When the token is moved 3 spaces
+                          .Move(uint8 3)
+            //And then it is moved 4 spaces
+                          .Move(uint8 4)
             //Then the token is on square 8
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
-                         (Some (uint8 8))
+            Expect.equal player.Square
+                         (uint8 8)
                          "Token is not on square 8"
          }
     ]
@@ -56,32 +49,26 @@ let ``Feature 1.2`` =
             let player = Player.create ()
 
             let player = player.Move(uint8 96)
-            let game = Game.start()
-                           .Place(player)
             //When the token is moved 3 spaces
-            let game = game.Place(player.Move(uint8 3))
+            let player = player.Move(uint8 3)
             //Then the token is on square 100
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
-                         (Some (uint8 100)) 
+            Expect.equal player.Square
+                         (uint8 100)
                          "Token is on square 100"
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.HasWon) game.Player)
-                    (Some (true)) 
+            Expect.isTrue player.HasWon
                     "And the player has won the game"
         }
         test "Not winning because you need to move the exact number of remaining squares" {
             //Given the token is on square 97
             let player = Player.create ()
             let player = player.Move(uint8 96)
-            let game = Game.start()
-                           .Place(player)
             //When the token is moved 4 spaces
-            let game = game.Place(player.Move(uint8 4))
+                               .Move(uint8 4)
             //Then the token is on square 97
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
-                         (Some (uint8 97)) 
+            Expect.equal player.Square
+                         (uint8 97)
                          "Token is on square 97"
-            Expect.equal (Option.map (fun (x:Player.Player) -> x.HasWon) game.Player)
-                    (Some (false)) 
+            Expect.isFalse player.HasWon
                     "And the player has not won the game"
         }
     ]    
@@ -91,7 +78,6 @@ let ``Feature 1.3`` =
     testList "Moves are determined by dice rolls" [
         test "The die has six sides" {
             //Given the game has started
-            let game = Game.start()
             //When the player rolls a die
             //Then the result should be between 1-6 inclusive
             [1..6] |>

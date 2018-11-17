@@ -33,10 +33,3 @@ module Player =
             this.Square = (uint8 100)
 
     let create () = Player <| Token.create ()
-    
-module Game =
-    type Game = Game of Player.Player option with 
-        member _this.Place (player:Player.Player) = Game <| Some player
-        member this.Player : Player.Player option = match this with Game x -> x
-               
-    let start () = Game None
