@@ -71,7 +71,6 @@ let ``Feature 1.2`` =
         test "Not winning because you need to move the exact number of remaining squares" {
             //Given the token is on square 97
             let player = Player.create ()
-
             let player = player.Move(uint8 96)
             let game = Game.start()
                            .Place(player)
@@ -86,6 +85,23 @@ let ``Feature 1.2`` =
                     "And the player has not won the game"
         }
     ]    
+
+[<Tests>]
+let ``Feature 1.3`` =
+    testList "Moves are determined by dice rolls" [
+        test "The die has six sides" {
+            //Given the game has started
+            let game = Game.start()
+            //When the player rolls a die
+            //Then the result should be between 1-6 inclusive
+            [1..6] |>
+            List.map 
+                (fun x -> Expect.isOk (Die.create (uint8 x)) "Rolling 1..6") 
+            |>ignore
+            Expect.isError (Die.create(uint8 0)) "Cannot roll less than 1"
+            Expect.isError (Die.create(uint8 7)) "Cannot roll more than 6"
+        }
+    ]
 
 
 [<EntryPoint>]
