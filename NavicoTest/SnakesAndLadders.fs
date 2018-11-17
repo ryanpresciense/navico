@@ -8,7 +8,11 @@ module Token =
 module Player =
     type Player = Player of Token.Token with
         member this.Move places = 
-            match this with Player (Token.Token x) -> Player <| Token.Token (x + places)
+            let constrainToBoard x places = 
+                match x + places with
+                    | x' when x' <= (uint8 100) -> x'
+                    | _ -> x
+            match this with Player (Token.Token x) -> Player <| Token.Token (constrainToBoard x places)
         member this.Square =
             match this with Player (Token.Token x) -> x
         member this.HasWon =

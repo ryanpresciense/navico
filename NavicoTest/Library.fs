@@ -63,10 +63,27 @@ let ``Feature 1.2`` =
             //Then the token is on square 100
             Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
                          (Some (uint8 100)) 
-                         "Token is not on square 100"
+                         "Token is on square 100"
             Expect.equal (Option.map (fun (x:Player.Player) -> x.HasWon) game.Player)
                     (Some (true)) 
-                    "Token is not on square 1"
+                    "And the player has won the game"
+        }
+        test "Not winning because you need to move the exact number of remaining squares" {
+            //Given the token is on square 97
+            let player = Player.create ()
+
+            let player = player.Move(uint8 96)
+            let game = Game.start()
+                           .Place(player)
+            //When the token is moved 4 spaces
+            let game = game.Place(player.Move(uint8 4))
+            //Then the token is on square 97
+            Expect.equal (Option.map (fun (x:Player.Player) -> x.Square) game.Player) 
+                         (Some (uint8 97)) 
+                         "Token is on square 97"
+            Expect.equal (Option.map (fun (x:Player.Player) -> x.HasWon) game.Player)
+                    (Some (false)) 
+                    "And the player has not won the game"
         }
     ]    
 
