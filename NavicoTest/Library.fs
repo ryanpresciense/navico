@@ -101,6 +101,18 @@ let ``Feature 1.3`` =
             Expect.isError (Die.create(uint8 0)) "Cannot roll less than 1"
             Expect.isError (Die.create(uint8 7)) "Cannot roll more than 6"
         }
+        test "Player rolling" {
+            //Given the player rolls a 4
+            let rolla4 = (Player.create ()).Roll (fun () -> Ok(uint8 4))
+            //When they move their token
+            
+            Expect.isOk rolla4 "Valid roll"
+            Result.map
+                (fun (p:Player.Player) -> 
+                Expect.equal (p.Square) (uint8 5) "Then the token should move 4 spaces")
+                rolla4
+            |> ignore
+        }
     ]
 
 

@@ -25,8 +25,8 @@ module Player =
                     | x' when x' <= (uint8 100) -> x'
                     | _ -> x
             match this with Player (Token.Token x) -> Player <| Token.Token (constrainToBoard x places)
-        member this.Roll () = 
-            Result.map this.Move <| Die.roll ()
+        member this.Roll roller = 
+            Result.map this.Move <| roller ()
         member this.Square =
             match this with Player (Token.Token x) -> x
         member this.HasWon =
