@@ -4,5 +4,5 @@ Requirements:
 
 Running the tests
 
-* cd Navico
+* cd NavicoTest
 * dotnet run
